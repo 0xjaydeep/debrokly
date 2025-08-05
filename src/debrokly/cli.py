@@ -15,11 +15,13 @@ from .core.exporter import DataExporter
 @click.argument('pdf_path', type=click.Path(exists=True, path_type=Path))
 @click.option('--password', '-p', help='PDF password')
 @click.option('--output', '-o', type=click.Path(path_type=Path), 
-              help='Output file path (CSV or Excel)')
+              help='Output file path (CSV or Excel). If not provided, uses organized folder structure.')
 @click.option('--format', '-f', type=click.Choice(['csv', 'excel']), 
               default='csv', help='Output format')
+@click.option('--organized/--no-organized', default=True,
+              help='Use organized folder structure (outputs/bank/YYYY-MM/). Default: True')
 @click.version_option()
-def main(pdf_path: Path, password: Optional[str], output: Optional[Path], format: str):
+def main(pdf_path: Path, password: Optional[str], output: Optional[Path], format: str, organized: bool):
     """
     Extract transaction data from credit card statement PDF.
     
@@ -43,14 +45,25 @@ def main(pdf_path: Path, password: Optional[str], output: Optional[Path], format
         transactions = extractor.extract(parsed_data)
         
         # Export data
-        if not output:
+        if output:
+            # User provided specific output path
+            click.echo(f"Exporting to {output} in {format} format...")
+            exporter.export(transactions, output, format)
+            final_output = output
+        elif organized:
+            # Use organized folder structure
+            click.echo(f"Using organized export structure...")
+            final_output = exporter.export_organized(transactions, format)
+            click.echo(f"Exporting to {final_output} in {format} format...")
+        else:
+            # Fallback to simple naming
             output = pdf_path.with_suffix(f'.{format}' if format == 'csv' else '.xlsx')
-        
-        click.echo(f"Exporting to {output} in {format} format...")
-        exporter.export(transactions, output, format)
+            click.echo(f"Exporting to {output} in {format} format...")
+            exporter.export(transactions, output, format)
+            final_output = output
         
         click.echo(f"✅ Successfully extracted {len(transactions)} transactions")
-        click.echo(f"📄 Output saved to: {output}")
+        click.echo(f"📄 Output saved to: {final_output}")
         
     except Exception as e:
         click.echo(f"❌ Error: {e}", err=True)
