@@ -1,0 +1,2 @@
+# This file ensures the samples directory structure is preserved in git
+# PDF files are ignored by .gitignore for privacy/security reasons
