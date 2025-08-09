@@ -60,13 +60,13 @@ tests/                  # Test suite
 ### Development Commands
 ```bash
 # Run CLI tool (organized output - default)
-cd src && python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement.pdf
+cd src && source ../.venv/bin/activate && python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement.pdf
 
 # Custom output location
-cd src && python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement.pdf --output ../my_file.csv --no-organized
+cd src && source ../.venv/bin/activate && python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement.pdf --output ../my_file.csv --no-organized
 
 # Excel format with password
-cd src && python3 -m debrokly.cli ../samples/pdfs/protected.pdf --password mypass --format excel
+cd src && source ../.venv/bin/activate && python3 -m debrokly.cli ../samples/pdfs/protected.pdf --password mypass --format excel
 
 # Run tests (when implemented)
 pytest
@@ -77,6 +77,51 @@ flake8 src/ tests/
 
 # Type checking (when configured)
 mypy src/
+```
+
+## Testing Commands
+
+### Basic Testing Commands
+```bash
+# Basic test with organized output (recommended)
+cd src && source ../.venv/bin/activate && python3 -m debrokly.cli ../samples/pdfs/[FILENAME].pdf
+
+# Test with custom output location
+cd src && source ../.venv/bin/activate && python3 -m debrokly.cli ../samples/pdfs/[FILENAME].pdf --output ../test_output.csv --no-organized
+
+# Test with Excel format
+cd src && source ../.venv/bin/activate && python3 -m debrokly.cli ../samples/pdfs/[FILENAME].pdf --format excel --no-organized
+
+# Test password-protected PDFs
+cd src && source ../.venv/bin/activate && python3 -m debrokly.cli ../samples/pdfs/[FILENAME].pdf --password yourpassword
+```
+
+### Quick Test All HDFC Files
+```bash
+cd src && source ../.venv/bin/activate
+python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement.pdf --no-organized
+python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement-2.pdf --no-organized  
+python3 -m debrokly.cli ../samples/pdfs/hdfc_may_millennia.pdf --no-organized
+```
+
+### Available Sample Files
+- `HDFC-Statement.pdf` - Original HDFC test file (5 transactions)
+- `HDFC-Statement-2.pdf` - Extended HDFC test file (17 transactions) 
+- `hdfc_may_millennia.pdf` - HDFC May statement (9 transactions)
+- `AUBANK.pdf` - AU Bank test file (extraction in development)
+
+### Testing Results Verification
+After running any test, check the generated CSV/Excel files to verify:
+- **Date Parsing**: Dates should follow DD/MM/YYYY format and be correctly parsed
+- **Transaction Count**: Match expected number of transactions
+- **Amount Parsing**: Debits should be negative, credits positive
+- **Description Cleaning**: Text should be clean and readable
+
+**Example Expected Output:**
+```csv
+date,description,amount,type,balance,bank,raw_data
+2025-06-04,Flipkart Internet Private Bengaluru,-1412.0,debit,,hdfc,...
+2025-05-27,CC PAYMENT 728325781258 PayZapp,...,17706.01,credit,,hdfc,...
 ```
 
 ### Working Features (as of current implementation)

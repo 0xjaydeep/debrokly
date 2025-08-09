@@ -37,17 +37,19 @@ def parse_date(date_str: str) -> Optional[date]:
     if not date_str or not isinstance(date_str, str):
         return None
     
-    # Common date formats to try
+    # Common date formats to try (Indian formats first for banking context)
     date_formats = [
-        '%m/%d/%Y',    # MM/DD/YYYY
-        '%m/%d/%y',    # MM/DD/YY
-        '%d/%m/%Y',    # DD/MM/YYYY
+        '%d/%m/%Y',    # DD/MM/YYYY (Indian format - priority for banking)
         '%d/%m/%y',    # DD/MM/YY
-        '%Y-%m-%d',    # YYYY-MM-DD
-        '%d %b %Y',    # DD MMM YYYY
-        '%b %d %Y',    # MMM DD YYYY
         '%d-%m-%Y',    # DD-MM-YYYY
+        '%d-%m-%y',    # DD-MM-YY
+        '%d %b %Y',    # DD MMM YYYY
+        '%d %B %Y',    # DD MMMM YYYY (full month name)
+        '%Y-%m-%d',    # YYYY-MM-DD (ISO format)
+        '%m/%d/%Y',    # MM/DD/YYYY (US format - lower priority)
+        '%m/%d/%y',    # MM/DD/YY
         '%m-%d-%Y',    # MM-DD-YYYY
+        '%b %d %Y',    # MMM DD YYYY
     ]
     
     date_str = date_str.strip()
