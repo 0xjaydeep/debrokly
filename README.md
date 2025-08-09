@@ -62,4 +62,4 @@ Check [`PROJECT_STATUS.md`](PROJECT_STATUS.md) for detailed usage instructions, 
 
 ---
 
-*MIT License | Owner: Jaydeep Chauhan*
+*MIT License | Owner: Jaydeep Chauhan* | Email: 0xjaydeep@gmail.com
