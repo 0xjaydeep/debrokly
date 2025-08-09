@@ -85,13 +85,22 @@
 ### Sample Data
 - User will provide sample PDFs from different banks for testing and development
 - Use samples to refine parsing algorithms and format detection
-
 ### Success Criteria
 - Successfully extract transaction data from major bank statement formats
 - Reliable password-protected PDF handling
 - Clean CSV/Excel export functionality
 - Easy integration as Python library
 - Robust error handling for edge cases
+
+
+### Quick Test All HDFC Files
+```bash
+cd src && source ../.venv/bin/activate
+python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement.pdf --no-organized
+python3 -m debrokly.cli ../samples/pdfs/HDFC-Statement-2.pdf --no-organized  
+python3 -m debrokly.cli ../samples/pdfs/hdfc_may_millennia.pdf --no-organized
+```
+
 
 ---
 *Document Version: 1.0*  
