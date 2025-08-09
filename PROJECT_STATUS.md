@@ -249,10 +249,17 @@ Extracted transactions include:
 
 ## 🚧 **Known Issues**
 
-1. **AU Bank Extraction**: Complex table structures not fully parsed
-2. **HDFC Month Folder Bug**: When importing different HDFC PDFs from the same statement month, the folder organization uses the latest transaction date instead of the statement month, causing incorrect folder placement
-3. **OCR Dependencies**: Tesseract installation required for scanned PDFs
-4. **Date Format Assumptions**: Some formats may need additional patterns
+See [`docs/issues/`](docs/issues/) for comprehensive issue tracking:
+- **Security Issues**: [`docs/issues/security.md`](docs/issues/security.md) - 1 critical vulnerability
+- **Bug Tracking**: [`docs/issues/bugs.md`](docs/issues/bugs.md) - 11 bugs across priority levels  
+- **Enhancements**: [`docs/issues/enhancements.md`](docs/issues/enhancements.md) - 8 planned improvements
+
+### **Quick Summary**:
+1. **🔴 CRITICAL**: Path traversal security vulnerability 
+2. **🔴 CRITICAL**: Date parsing priority causes wrong dates
+3. **🔴 CRITICAL**: Month folder detection bug (known issue)
+4. **🟡 HIGH**: AU Bank extraction not working
+5. **🟡 HIGH**: Multiple error handling improvements needed
 
 ---
 
